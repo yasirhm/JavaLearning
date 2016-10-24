@@ -2,6 +2,8 @@
  * Created by Dotinschool6 on 10/23/2016.
  */
 
+import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -15,11 +17,20 @@ public class Deposit {
     private BigDecimal payedInterest;
 
 
-    public Deposit(String customerNumber, Integer durationInDays, BigDecimal depositBalance,DepositType depositType) {//
+    public Deposit(String customerNumber, Integer durationInDays, BigDecimal depositBalance,DepositType depositType) throws Exception {//
         this.customerNumber = customerNumber;
         this.depositType = depositType;
-        this.durationInDays = durationInDays;
-        this.depositBalance = depositBalance;
+
+        if(depositBalance.compareTo(new BigDecimal(0)) == -1){
+            throw new Exception("Wrong: Deposit balance is less than zero!!");
+        }else if (durationInDays <= 0){
+            throw new Exception("Wrong: Duration Days is not valid!!");
+        }
+        else{
+            this.depositBalance = depositBalance;
+            this.durationInDays = durationInDays;
+        }
+
     }
 
     public String getCustomerNumber() {

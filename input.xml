@@ -21,4 +21,12 @@
         <durationInDays>1000</durationInDays>
     </deposit>
 
+    <deposit>
+        <customerNumber>6821</customerNumber>
+        <depositType>ccc</depositType>
+        <depositBalance>5450</depositBalance>
+        <durationInDays>10</durationInDays>
+    </deposit>
+
+
 </deposits>

@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 
 public class Main {
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws Exception{
         List<Deposit> deposits = new ArrayList<Deposit>() ;
 
         try{
@@ -43,19 +43,34 @@ public class Main {
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) { ////??
                     Element eElement = (Element) nNode;
 
-                    Class depositType = Class.forName(eElement.getElementsByTagName("depositType").item(0).getTextContent());
-                    DepositType dType = (DepositType) depositType.newInstance();
-
-                    Class deposit = Class.forName("Deposit");
+                    /*try {
+                        Class depositType = Class.forName(eElement.getElementsByTagName("depositType").item(0).getTextContent());
+                        DepositType dType = (DepositType) depositType.newInstance();
+                    }catch (ClassNotFoundException err){
+                        System.out.println("Exception!");
+                        err.println(
+                                "Reflection error trying to invoke " + className + ".");
+                    }*/
                     //Constructor constructor =
                            // deposit.getConstructor(new Class[]{String.class,Integer.class,BigDecimal.class});
-                    Deposit de = (Deposit) deposit.getConstructor(new Class[]{String.class,Integer.class,BigDecimal.class,DepositType.class}).newInstance(eElement.getElementsByTagName("customerNumber").item(0).getTextContent(),
-                            parseInt(eElement.getElementsByTagName("durationInDays").item(0).getTextContent()),
-                            new BigDecimal(eElement.getElementsByTagName("depositBalance").item(0).getTextContent().replaceAll(",", "")),
-                            dType
-                    );
-                    de.calculatePayedInterest();
-                    deposits.add(de);
+                    try {
+                        Class depositType = Class.forName(eElement.getElementsByTagName("depositType").item(0).getTextContent());
+                        DepositType dType = (DepositType) depositType.newInstance();
+
+                        Class deposit = Class.forName("Deposit");
+                        Deposit de = (Deposit) deposit.getConstructor(new Class[]{String.class, Integer.class, BigDecimal.class, DepositType.class}).newInstance(eElement.getElementsByTagName("customerNumber").item(0).getTextContent(),
+                                parseInt(eElement.getElementsByTagName("durationInDays").item(0).getTextContent()),
+                                new BigDecimal(eElement.getElementsByTagName("depositBalance").item(0).getTextContent().replaceAll(",", "")),
+                                dType
+                        );
+                        de.calculatePayedInterest();
+                        deposits.add(de);
+                    }catch(Exception exp){
+
+                        System.out.println("Error: ");
+                        exp.printStackTrace();
+                    }
+
 
                 }
 
@@ -124,7 +139,7 @@ System.out.println("Sorted");
 
             // Append to the end of the file
             raf.write(0x0A);
-            raf.writeBytes("This will complete the Demo");
+            raf.writeBytes("This will complete the Project.");
 
 
             for (Deposit dp : deposits) {
