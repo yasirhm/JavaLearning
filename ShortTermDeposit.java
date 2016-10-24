@@ -1,9 +1,9 @@
 /**
  * Created by Dotinschool6 on 10/23/2016.
  */
-public class ShortTermDeposit extends Deposit {
-    public ShortTermDeposit(String customerNumber) {
-        super(customerNumber);
-        this.setInterestRate(0.1);
+public class ShortTermDeposit extends DepositType
+{
+    public ShortTermDeposit() {
+        super(0.1);
     }
 }

@@ -1,7 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <deposits>
     <deposit>
         <customerNumber>534900</customerNumber>
-        <depositType>ShortTerm</depositType>
+        <depositType>ShortTermDeposit</depositType>
         <depositBalance>200000</depositBalance>
         <durationInDays>25</durationInDays>
     </deposit>
@@ -15,7 +16,7 @@
 
     <deposit>
         <customerNumber>658951</customerNumber>
-        <depositType>LongTerm</depositType>
+        <depositType>LongTermDeposit</depositType>
         <depositBalance>545966600000</depositBalance>
         <durationInDays>1000</durationInDays>
     </deposit>

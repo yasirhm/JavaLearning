@@ -3,17 +3,23 @@
  */
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
-public abstract class Deposit {
+public class Deposit {
 
     private String customerNumber ;
     private Integer durationInDays;
     private BigDecimal depositBalance = BigDecimal.ZERO;
-    private Double interestRate;
+
+    private DepositType depositType;
+    private BigDecimal payedInterest;
 
 
-    public Deposit(String customerNumber) {
+    public Deposit(String customerNumber, Integer durationInDays, BigDecimal depositBalance,DepositType depositType) {//
         this.customerNumber = customerNumber;
+        this.depositType = depositType;
+        this.durationInDays = durationInDays;
+        this.depositBalance = depositBalance;
     }
 
     public String getCustomerNumber() {
@@ -40,16 +46,21 @@ public abstract class Deposit {
         this.depositBalance = depositBalance;
     }
 
-    public Double getInterestRate() {
+    /*public Double getInterestRate() {
         return interestRate;
     }
 
     public void setInterestRate(Double interestRate) {
         this.interestRate = interestRate;
+    }*/
+
+    public BigDecimal getPayedInterest() {
+        return payedInterest;
     }
 
-    public Integer calculatePayedInterest(){
-        BigDecimal Pi = (depositBalance.multiply(new BigDecimal(interestRate)).multiply(new BigDecimal(durationInDays)));
-        return Pi.intValue()/36500;
+    public void calculatePayedInterest(){
+
+        BigDecimal Pi = depositBalance.multiply(new BigDecimal(depositType.getInterestRate()).multiply(new BigDecimal(durationInDays) ) ) ;
+        payedInterest =  Pi.divide(new BigDecimal(36500), 3, RoundingMode.CEILING);
     }
 }
