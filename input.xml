@@ -4,7 +4,7 @@
         <customerNumber>534900</customerNumber>
         <depositType>ShortTermDeposit</depositType>
         <depositBalance>200000</depositBalance>
-        <durationInDays>25</durationInDays>
+        <durationInDays>0</durationInDays>
     </deposit>
 
     <deposit>
@@ -23,9 +23,9 @@
 
     <deposit>
         <customerNumber>6821</customerNumber>
-        <depositType>ccc</depositType>
+        <depositType>Loan</depositType>
         <depositBalance>5450</depositBalance>
-        <durationInDays>10</durationInDays>
+        <durationInDays>0</durationInDays>
     </deposit>
 
 

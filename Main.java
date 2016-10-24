@@ -12,7 +12,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
+
 
 import static java.lang.Integer.parseInt;
 import java.math.BigDecimal;
@@ -20,7 +20,32 @@ import java.math.BigDecimal;
 public class Main {
 
     public static void main(String[] args) throws Exception{
+
         List<Deposit> deposits = new ArrayList<Deposit>() ;
+        XMLParser (deposits);
+        Collections.sort(deposits, new Comparator() {
+            @Override
+            public int compare(Object depositOne, Object depositTwo) {
+                //use instanceof to verify the references are indeed of the type in question
+                //ascending order
+               // return ((Deposit)depositOne).getPayedInterest()
+                 //       .compareTo(((Deposit)depositTwo).getPayedInterest());
+                //descending order
+                 return ((Deposit)depositTwo).getPayedInterest()
+                          .compareTo(((Deposit)depositOne).getPayedInterest());
+
+            }
+        });
+        doAccess(deposits);
+
+        System.out.println("Sorted");
+        for (Deposit dp : deposits) {
+            System.out.println(dp.getCustomerNumber() + " - " + dp.getPayedInterest() );
+        }
+    }
+
+    private static void XMLParser( List<Deposit> deposits)
+    {
 
         try{
             File inputFile;
@@ -51,8 +76,7 @@ public class Main {
                         err.println(
                                 "Reflection error trying to invoke " + className + ".");
                     }*/
-                    //Constructor constructor =
-                           // deposit.getConstructor(new Class[]{String.class,Integer.class,BigDecimal.class});
+
                     try {
                         Class depositType = Class.forName(eElement.getElementsByTagName("depositType").item(0).getTextContent());
                         DepositType dType = (DepositType) depositType.newInstance();
@@ -66,8 +90,6 @@ public class Main {
                         de.calculatePayedInterest();
                         deposits.add(de);
                     }catch(Exception exp){
-
-                        System.out.println("Error: ");
                         exp.printStackTrace();
                     }
 
@@ -77,51 +99,18 @@ public class Main {
             }
 
         }catch(Exception e){
-            System.out.println("Exception!");
+            System.out.println("Exception In parsing XML File!");
             e.printStackTrace();
         }
-
-        Collections.sort(deposits, new Comparator() {
-            @Override
-            public int compare(Object depositOne, Object depositTwo) {
-                //use instanceof to verify the references are indeed of the type in question
-                //ascending order
-               // return ((Deposit)depositOne).getPayedInterest()
-                 //       .compareTo(((Deposit)depositTwo).getPayedInterest());
-                //descending order
-                 return ((Deposit)depositTwo).getPayedInterest()
-                          .compareTo(((Deposit)depositOne).getPayedInterest());
-
-            }
-        });
-
-        doAccess(deposits);
-
-System.out.println("Sorted");
-        for (Deposit dp : deposits) {
-            System.out.println(dp.getCustomerNumber() + " - " + dp.getPayedInterest() );
-        }
-
-
-
-
-        Integer customerID = 1;
-        //LongTermDeposit a1 = new LongTermDeposit(customerID);
-        customerID++;
-        //ShortTermDeposit a2 = new ShortTermDeposit(customerID);
-        customerID++;
-        //Loan a3 = new Loan(customerID);
-        /*System.out.println("Loan: "+a3.getInterestRate());
-        System.out.println("Loan: "+a2.getInterestRate());
-        System.out.println("Loan: "+a1.getInterestRate());*/
     }
 
 
-    private static void doAccess( List<Deposit> deposits) {
+    private static void doAccess( List<Deposit> deposits)
+    {
 
         try {
 
-            File file = new File("DemoRandomAccessFile.out");
+            File file = new File("Project1RandomAccessFile.out");
             RandomAccessFile raf = new RandomAccessFile(file, "rw");
 
             // Read a character
@@ -141,11 +130,9 @@ System.out.println("Sorted");
             raf.write(0x0A);
             raf.writeBytes("This will complete the Project.");
 
-
             for (Deposit dp : deposits) {
-                System.out.println(dp.getCustomerNumber() + " - " + dp.getPayedInterest() );
                 raf.write(0x0A);
-                raf.writeBytes(dp.getCustomerNumber() + " - " + dp.getPayedInterest());
+                raf.writeBytes(dp.getCustomerNumber() + " # " + dp.getPayedInterest());
             }
 
             raf.close();
