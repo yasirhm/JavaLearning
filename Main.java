@@ -1,5 +1,5 @@
 /**
- * Created by Dotinschool6 on 10/23/2016.
+ * Created by Yasi on 10/23/2016.
  */
 
 import java.io.IOException;
@@ -16,10 +16,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
-
-
 import static java.lang.Integer.parseInt;
-
 import java.math.BigDecimal;
 
 public class Main {
@@ -32,18 +29,13 @@ public class Main {
         } catch (ParserConfigurationException | SAXException | IOException e) {
             System.exit(1);
         }
-
         Collections.sort(deposits, new Comparator() {
             @Override
             public int compare(Object depositOne, Object depositTwo) {
-                //use instanceof to verify the references are indeed of the type in question
                 //ascending order
-                // return ((Deposit)depositOne).getPayedInterest()
-                //       .compareTo(((Deposit)depositTwo).getPayedInterest());
+                // return ((Deposit)depositOne).getPayedInterest().compareTo(((Deposit)depositTwo).getPayedInterest());
                 //descending order
-                return ((Deposit) depositTwo).getPayedInterest()
-                        .compareTo(((Deposit) depositOne).getPayedInterest());
-
+                return ((Deposit) depositTwo).getPayedInterest().compareTo(((Deposit) depositOne).getPayedInterest());
             }
         });
         System.out.println("Sorted");
